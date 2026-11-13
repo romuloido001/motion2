@@ -13,7 +13,7 @@ YOUR GOOGLE SHEET
 https://docs.google.com/spreadsheets/d/1YuD5AYyX1otXuSqTn2OdE8Bm3Z_FWMgEIS0amVobZkc/edit
 
 YOUR DEPLOYED APPS SCRIPT ENDPOINT
-https://script.google.com/macros/s/AKfycbx9h03FSRqmRMX965_qkmrWee1eK8AOKzMFvW0206ruVBnhOp92UHXNt8pJp0UG0U9N/exec
+https://script.google.com/macros/s/AKfycbwu09ch0EBji8Ay0qA5VaGVRjKa6vJeSpIjg6CxgJWSoTSo_H9WiMsFTnHZQCVGg2Ri/exec
 
 INSTALLATION
 1. Open the Google Sheet above, then Extensions > Apps Script.
