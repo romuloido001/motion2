@@ -1,32 +1,24 @@
 # Grade 7 Science Interactive Lesson: Understanding Motion
 
-A self-contained HTML learning resource based on the supplied Grade 7 Science reference images.
+A self-contained interactive learning resource with an optional Google Sheets submission backend.
 
-## Contents
-- `index.html` — complete interactive lesson; no external libraries or internet connection required.
-- Responsive layout for computers, tablets, and phones.
-- Learner name and section fields.
-- Explanations, examples, diagrams, guided questions, and interactive graph.
-- Learning activities and a 12-item auto-graded assessment.
-- Personal downloadable learner report (`LearnerName_Grade7_Science_Motion_Output.txt`).
+## Files
+- `index.html` — interactive lesson, activities, 12-item assessment, and downloadable learner report.
+- `Code.gs` — Google Apps Script web app and Google Sheets backend.
+
+## Connect to a Google Sheet
+1. Copy the destination spreadsheet ID from its URL and set `SPREADSHEET_ID` in `Code.gs`.
+2. In the Apps Script project, replace `Code.gs` with the local `Code.gs` contents. Add an HTML file named `index` and copy in `index.html`.
+3. Save the project. Select **Deploy → Manage deployments → Edit → New version → Deploy** to update the existing web app without changing its access level.
+4. Open the deployed web app URL (ending in `/exec`). It serves the lesson and its **Submit to Teacher's Google Sheet** button writes to the `Motion Lesson Responses` tab of the spreadsheet identified in `SPREADSHEET_ID`.
+
+The backend creates the response tab and header row automatically. Add `?health=1` to the web app URL to check whether the backend is running.
 
 ## Preview locally
-1. Extract the ZIP file.
-2. Open `index.html` in Chrome, Edge, Firefox, or another modern browser.
-3. Enter the learner's name and section.
-4. Complete the activities and assessment.
-5. Select **Download My Learning Output** to save the learner report.
-
-## Publish using GitHub Pages
-1. Sign in to GitHub and create a new repository (for example, `grade7-motion-lesson`).
-2. Upload `index.html` and this `README.md` to the repository's root folder.
-3. Open **Settings → Pages**.
-4. Under **Build and deployment**, choose **Deploy from a branch**.
-5. Select the `main` branch and `/ (root)` folder, then save.
-6. Wait for GitHub Pages to publish. Open the URL shown in the Pages settings.
+Open `index.html` in a modern browser to use the lesson and download the learner report. Submitting to the Google Sheet works only when the page is opened from its deployed Apps Script web app.
 
 ## Learner privacy
-All learner details and assessment processing stay in the learner's browser. The page does not transmit names, answers, or scores to a server. The learner report is generated locally as a text file.
+When a learner chooses **Submit to Teacher's Google Sheet**, their name, section, date, assessment answers and score, activity responses, and reflection are sent to the spreadsheet associated with the Apps Script project. The downloadable report is generated locally. Set web app access according to your school's privacy and account requirements.
 
 ## Teacher note
 The resource is designed as a Grade 7 learning aid aligned to the supplied learning targets and an inquiry-oriented lesson flow: activate prior knowledge, explore examples, practise, assess, and reflect. Please review against your school's current curriculum guide and lesson plan before classroom use.

@@ -3,18 +3,16 @@
  * Google Sheets backend for learner submissions.
  *
  * SETUP:
- * 1. Open the Google Spreadsheet that will store the submissions.
- * 2. Choose Extensions > Apps Script.
- * 3. Replace the contents of Code.gs with this code.
- * 4. Save, then Deploy > New deployment > Web app.
- * 5. Execute as: Me. Who has access: Anyone (or the access level
- *    required by your school). Authorize when prompted.
- * 6. Copy the Web app URL ending in /exec. The lesson HTML must POST
- *    its learner data to that URL; this backend alone does not connect
- *    the HTML until that client-side step is added.
+ * 1. Set SPREADSHEET_ID to the ID of the destination Google Spreadsheet.
+ * 2. Replace the contents of Code.gs with this code.
+ * 3. Add an HTML file named index and copy in index.html.
+ * 4. Save, then Deploy > Manage deployments > Edit > New version.
+ * 5. Execute as: Me. Keep the existing access level unless it needs to change.
+ * 6. Deploy and authorize when prompted.
  */
 
 const SHEET_NAME = 'Motion Lesson Responses';
+const SPREADSHEET_ID = '1YuD5AYyX1otXuSqTn2OdE8Bm3Z_FWMgEIS0amVobZkc';
 
 const HEADERS = [
   'Timestamp',
@@ -48,14 +46,27 @@ const HEADERS = [
 ];
 
 /**
- * Optional browser test / deployment health check.
+ * Serves the lesson, or a JSON health check at ?health=1.
  */
-function doGet() {
-  return jsonOutput({
-    success: true,
-    message: 'Grade 7 Science Motion backend is running.',
-    sheet: SHEET_NAME
-  });
+function doGet(e) {
+  if (e && e.parameter && e.parameter.health === '1') {
+    return jsonOutput({
+      success: true,
+      message: 'Grade 7 Science Motion backend is running.',
+      sheet: SHEET_NAME
+    });
+  }
+
+  return HtmlService.createHtmlOutputFromFile('index')
+    .setTitle('Grade 7 Science | Understanding Motion')
+    .addMetaTag('viewport', 'width=device-width, initial-scale=1');
+}
+
+/**
+ * Called by the Apps Script-hosted lesson through google.script.run.
+ */
+function saveSubmission(data) {
+  return appendSubmission_(data);
 }
 
 /**
@@ -67,93 +78,87 @@ function doPost(e) {
       throw new Error('No submission data was received.');
     }
 
-    const data = JSON.parse(e.postData.contents);
-
-    const learnerName = cleanText(data.learnerName, 200);
-    if (!learnerName) {
-      throw new Error('Learner full name is required.');
-    }
-
-    const ss = SpreadsheetApp.getActiveSpreadsheet();
-    if (!ss) {
-      throw new Error(
-        'No active spreadsheet found. Open Apps Script from the destination Google Spreadsheet.'
-      );
-    }
-
-    const sheet = getOrCreateResponseSheet_(ss);
-    const answers = data.assessmentAnswers || {};
-    const activities = data.activities || {};
-    const reflection = data.reflection || {};
-
-    const score = isNumber(data.assessmentScore)
-      ? Number(data.assessmentScore)
-      : '';
-
-    const percentage = score === '' ? '' : Math.round((score / 12) * 100);
-
-    const row = [
-      new Date(),
-      learnerName,
-      cleanText(data.gradeSection, 100),
-      cleanText(data.learnerDate, 50),
-      data.assessmentSubmitted === true ? 'Yes' : 'No',
-      score,
-      percentage,
-
-      cleanText(answers.q1, 20),
-      cleanText(answers.q2, 20),
-      cleanText(answers.q3, 20),
-      cleanText(answers.q4, 20),
-      cleanText(answers.q5, 20),
-      cleanText(answers.q6, 20),
-      cleanText(answers.q7, 20),
-      cleanText(answers.q8, 20),
-      cleanText(answers.q9, 20),
-      cleanText(answers.q10, 20),
-      cleanText(answers.q11, 20),
-      cleanText(answers.q12, 20),
-
-      cleanText(activities.actA, 5000),
-      cleanText(activities.actB, 500),
-      cleanText(activities.actC1, 500),
-      cleanText(activities.actC2, 500),
-      cleanText(activities.actC3, 1000),
-      cleanText(activities.actD1, 20),
-      cleanText(activities.actD2, 20),
-      cleanText(activities.actD3, 20),
-      cleanText(activities.actE1, 20),
-      cleanText(activities.actE2, 20),
-      cleanText(activities.actE3, 500),
-      cleanText(activities.actF1, 500),
-      cleanText(activities.actF2, 500),
-      cleanText(activities.actF3, 1000),
-      cleanText(activities.actF4, 5000),
-      cleanText(activities.actG, 5000),
-      cleanText(reflection.reflect1, 3000),
-      cleanText(reflection.reflect2, 3000),
-      JSON.stringify(data)
-    ];
-
-    const lock = LockService.getScriptLock();
-    lock.waitLock(15000);
-    try {
-      sheet.appendRow(row);
-    } finally {
-      lock.releaseLock();
-    }
-
-    return jsonOutput({
-      success: true,
-      message: 'Learner submission saved successfully.',
-      row: sheet.getLastRow()
-    });
-
+    return jsonOutput(appendSubmission_(JSON.parse(e.postData.contents)));
   } catch (err) {
     return jsonOutput({
       success: false,
       message: err && err.message ? err.message : 'Unable to save submission.'
     });
+  }
+}
+
+function appendSubmission_(data) {
+  if (!data || typeof data !== 'object') {
+    throw new Error('Submission data must be an object.');
+  }
+
+  const learnerName = cleanText(data.learnerName, 200);
+  if (!learnerName) {
+    throw new Error('Learner full name is required.');
+  }
+
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+
+  const sheet = getOrCreateResponseSheet_(ss);
+  const answers = data.assessmentAnswers || {};
+  const activities = data.activities || {};
+  const reflection = data.reflection || {};
+  const score = isNumber(data.assessmentScore) ? Number(data.assessmentScore) : '';
+  const percentage = score === '' ? '' : Math.round((score / 12) * 100);
+
+  const row = [
+    new Date(),
+    learnerName,
+    cleanText(data.gradeSection, 100),
+    cleanText(data.learnerDate, 50),
+    data.assessmentSubmitted === true ? 'Yes' : 'No',
+    score,
+    percentage,
+    cleanText(answers.q1, 20),
+    cleanText(answers.q2, 20),
+    cleanText(answers.q3, 20),
+    cleanText(answers.q4, 20),
+    cleanText(answers.q5, 20),
+    cleanText(answers.q6, 20),
+    cleanText(answers.q7, 20),
+    cleanText(answers.q8, 20),
+    cleanText(answers.q9, 20),
+    cleanText(answers.q10, 20),
+    cleanText(answers.q11, 20),
+    cleanText(answers.q12, 20),
+    cleanText(activities.actA, 5000),
+    cleanText(activities.actB, 500),
+    cleanText(activities.actC1, 500),
+    cleanText(activities.actC2, 500),
+    cleanText(activities.actC3, 1000),
+    cleanText(activities.actD1, 20),
+    cleanText(activities.actD2, 20),
+    cleanText(activities.actD3, 20),
+    cleanText(activities.actE1, 20),
+    cleanText(activities.actE2, 20),
+    cleanText(activities.actE3, 500),
+    cleanText(activities.actF1, 500),
+    cleanText(activities.actF2, 500),
+    cleanText(activities.actF3, 1000),
+    cleanText(activities.actF4, 5000),
+    cleanText(activities.actG, 5000),
+    cleanText(reflection.reflect1, 3000),
+    cleanText(reflection.reflect2, 3000),
+    JSON.stringify(data)
+  ];
+
+  const lock = LockService.getScriptLock();
+  lock.waitLock(15000);
+  try {
+    const responseRow = sheet.getLastRow() + 1;
+    sheet.getRange(responseRow, 1, 1, row.length).setValues([row]);
+    return {
+      success: true,
+      message: 'Learner submission saved successfully.',
+      row: responseRow
+    };
+  } finally {
+    lock.releaseLock();
   }
 }
 

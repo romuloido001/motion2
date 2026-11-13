@@ -210,11 +210,13 @@ small,.muted{color:var(--muted)}
 <div class="callout"><strong>Remember the science process:</strong> Observe • Measure • Record • Graph • Analyze • Draw conclusions.</div>
 </div></section>
 <section class="panel pink"><h2>📥 Download Your Learning Output</h2><div class="content">
-<p>When you are finished, download a personal report containing your learner information, assessment score, activity responses, and reflection. Your teacher can ask you to submit this file.</p>
+<p>When you are finished, submit your work to your teacher's Google Sheet and download a personal report containing your learner information, assessment score, activities, and reflection.</p>
+<button id="submitSheetButton" class="green" onclick="submitToSheet()">Submit to Teacher's Google Sheet</button>
 <button class="green" onclick="downloadReport()">Download My Learning Output</button>
 <button class="secondary" onclick="window.print()">Print Lesson</button>
+<div id="sheetFeedback" class="feedback" aria-live="polite"></div>
 <div id="downloadFeedback" class="feedback"></div>
-<p class="muted">The report is generated on your device. No learner information is sent to a server.</p>
+<p class="muted">Submitting sends your learner information and responses to the teacher's Google Sheet. The downloadable report is generated on your device.</p>
 </div></section>
 </main>
 <footer>Observe • Measure • Graph • Analyze • Draw Conclusions<br><small style="color:#c8e4ff">Grade 7 Science Interactive Learning Resource</small></footer>
@@ -229,6 +231,28 @@ function updateCount(){let n=0;for(let i=1;i<=12;i++)if(document.querySelector('
 document.getElementById('quizForm').addEventListener('change',updateCount);
 function gradeQuiz(){let n=0,missing=[];for(let i=1;i<=12;i++){const s=document.querySelector('input[name="q'+i+'"]:checked');if(!s)missing.push(i);else if(s.value===answers['q'+i])n++;}if(missing.length){document.getElementById('quizResult').textContent='Please answer all items before submitting. Still unanswered: '+missing.join(', ')+'.';document.getElementById('quizResult').className='feedback bad';return;}quizScore=n;quizSubmitted=true;const pct=Math.round(n/12*100);document.getElementById('quizResult').textContent='Your score: '+n+'/12 ('+pct+'%). '+(pct>=80?'Excellent work! Keep investigating.':pct>=60?'Good effort! Review the lesson and keep practising.':'Keep learning. Review the examples and try again.');document.getElementById('quizResult').className='feedback '+(pct>=60?'good':'bad');}
 function resetQuiz(){document.getElementById('quizForm').reset();quizScore=null;quizSubmitted=false;document.getElementById('quizResult').textContent='';updateCount();}
+function radioValue(name){const selected=document.querySelector('input[name="'+name+'"]:checked');return selected?selected.value:'';}
+function collectSubmission(){const assessmentAnswers={};for(let i=1;i<=12;i++){assessmentAnswers['q'+i]=radioValue('q'+i);}return {
+learnerName:document.getElementById('learner').value.trim(),
+gradeSection:document.getElementById('section').value.trim(),
+learnerDate:document.getElementById('date').value,
+assessmentSubmitted:quizSubmitted,
+assessmentScore:quizSubmitted?quizScore:null,
+assessmentAnswers:assessmentAnswers,
+activities:{
+actA:document.getElementById('actA').value,actB:document.getElementById('actB').value,
+actC1:document.getElementById('actC1').value,actC2:document.getElementById('actC2').value,actC3:document.getElementById('actC3').value,
+actD1:radioValue('actD1'),actD2:radioValue('actD2'),actD3:radioValue('actD3'),
+actE1:radioValue('actE1'),actE2:radioValue('actE2'),actE3:document.getElementById('actE3').value,
+actF1:document.getElementById('actF1').value,actF2:document.getElementById('actF2').value,actF3:document.getElementById('actF3').value,
+actF4:document.getElementById('actF4').value,actG:document.getElementById('actG').value
+},
+reflection:{reflect1:document.getElementById('reflect1').value,reflect2:document.getElementById('reflect2').value}
+};}
+function submitToSheet(){const feedback=document.getElementById('sheetFeedback');const name=document.getElementById('learner').value.trim();if(!name){feedback.textContent='Please enter your full name before submitting.';feedback.className='feedback bad';document.getElementById('learner').focus();return;}
+if(typeof google==='undefined'||!google.script||!google.script.run){feedback.textContent='This page is not connected to Apps Script. Open the deployed Apps Script web app to submit to the teacher sheet.';feedback.className='feedback bad';return;}
+const button=document.getElementById('submitSheetButton');button.disabled=true;feedback.textContent='Saving your work to the teacher sheet...';feedback.className='feedback';
+google.script.run.withSuccessHandler(function(result){button.disabled=false;if(!result||!result.success){feedback.textContent=result&&result.message?result.message:'The submission could not be saved.';feedback.className='feedback bad';return;}feedback.textContent='Your work was saved to the teacher sheet (row '+result.row+').';feedback.className='feedback good';}).withFailureHandler(function(error){button.disabled=false;feedback.textContent='Unable to save: '+(error&&error.message?error.message:'Please try again or contact your teacher.');feedback.className='feedback bad';}).saveSubmission(collectSubmission());}
 function drawGraph(id,speed,maxTime=10,maxDist=100){const c=document.getElementById(id);if(!c)return;const ctx=c.getContext('2d'),w=c.width,h=c.height;ctx.clearRect(0,0,w,h);const L=48,R=18,T=18,B=42,pw=w-L-R,ph=h-T-B;ctx.strokeStyle='#d6e2ec';ctx.lineWidth=1;ctx.font='13px Arial';ctx.fillStyle='#233d59';for(let i=0;i<=5;i++){let x=L+pw*i/5,y=T+ph*i/5;ctx.beginPath();ctx.moveTo(x,T);ctx.lineTo(x,T+ph);ctx.stroke();ctx.beginPath();ctx.moveTo(L,y);ctx.lineTo(L+pw,y);ctx.stroke();ctx.fillText(Math.round(maxTime*i/5),x-5,T+ph+19);ctx.fillText(Math.round(maxDist*(5-i)/5),8,y+4);}ctx.strokeStyle='#183d67';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(L,T);ctx.lineTo(L,T+ph);ctx.lineTo(L+pw,T+ph);ctx.stroke();ctx.fillText('Time (s)',w/2-20,h-7);ctx.save();ctx.translate(14,h/2+20);ctx.rotate(-Math.PI/2);ctx.fillText('Distance (m)',0,0);ctx.restore();ctx.strokeStyle='#1685d5';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(L,T+ph);let end=Math.min(speed*maxTime,maxDist);ctx.lineTo(L+pw*maxTime/maxTime,T+ph-ph*end/maxDist);ctx.stroke();ctx.fillStyle='#087b52';ctx.beginPath();ctx.arc(L+pw,T+ph-ph*end/maxDist,5,0,Math.PI*2);ctx.fill();}
 function updateGraph(){const s=+document.getElementById('speedSlider').value;document.getElementById('speedValue').textContent=s;drawGraph('exploreGraph',s,10,100);document.getElementById('graphExplain').textContent='At '+s+' m/s, the car travels '+(s*10)+' m in 10 seconds.';}
 drawGraph('motionGraph',10,10,100);updateGraph();
