@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Interactive Grade 7 Science lesson on motion, displacement, velocity, graphing motion, and variables.">
+<title>Grade 7 Science | Understanding Motion</title>
+<style>
+:root{--navy:#103d70;--blue:#1685d5;--sky:#e8f6ff;--teal:#0b927e;--green:#e7f8ed;--purple:#7255c7;--lav:#f1edff;--gold:#f2b52d;--yellow:#fff5d8;--pink:#ef6689;--ink:#142b49;--muted:#52657b;--line:#cbd9e7;--white:#fff}
+*{box-sizing:border-box}body{margin:0;background:#f3f7fb;color:var(--ink);font:16px/1.55 "Trebuchet MS",Arial,sans-serif}
+header{background:linear-gradient(120deg,#103d70,#176eb0);color:white;padding:26px 18px 22px}
+.hero{max-width:1150px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+h1{font-size:clamp(1.8rem,4vw,2.7rem);line-height:1.1;margin:0 0 8px}.subtitle{margin:0;color:#dceeff;font-size:1.05rem}
+.tag{background:#d7f2ff;color:#103d70;border-radius:30px;padding:9px 15px;font-weight:bold}
+main{max-width:1150px;margin:20px auto;padding:0 14px 40px}
+.student{background:white;border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:16px;box-shadow:0 4px 14px #163d6410}
+.student-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px}
+label{display:block;font-weight:bold;margin-bottom:5px}input[type=text]{width:100%;padding:11px;border:1px solid #9fb6cc;border-radius:9px;font:inherit}
+nav{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}
+nav a{background:white;border:1px solid var(--line);border-radius:22px;padding:8px 13px;text-decoration:none;color:var(--navy);font-weight:bold;font-size:.92rem}
+nav a:hover{background:var(--sky)}
+.panel{background:white;border:1px solid var(--line);border-radius:17px;margin:15px 0;overflow:hidden;box-shadow:0 4px 14px #163d640b}
+.panel h2{margin:0;padding:13px 18px;color:#092c50;font-size:1.35rem}
+.blue h2{background:#cfeaff}.purple h2{background:#e2d9ff}.teal h2{background:#c9f2e9}.gold h2{background:#ffebad}.pink h2{background:#ffdce6}
+.content{padding:17px 19px}
+.lead{font-size:1.08rem;font-weight:bold}
+.cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.card{border:1px solid var(--line);border-radius:13px;padding:14px;background:#fff}
+.card h3{margin:0 0 7px;font-size:1.12rem}.tint-blue{background:#f0f9ff}.tint-green{background:#effaf2}.tint-purple{background:#f6f2ff}.tint-yellow{background:#fff9e8}
+.visual{background:linear-gradient(180deg,#f4fbff,#e8f3fb);border-radius:12px;padding:12px;text-align:center;margin:10px 0}
+.visual svg{max-width:100%;height:auto}
+.formula{display:inline-block;background:#fff0bf;border:1px solid #f2d47c;padding:8px 15px;border-radius:10px;font-size:1.1rem;font-weight:bold;margin:7px 0}
+.callout{padding:12px 14px;border-left:5px solid var(--blue);background:#edf7ff;border-radius:8px;margin:12px 0}
+button{background:var(--navy);color:white;border:0;border-radius:9px;padding:10px 15px;font:inherit;font-weight:bold;cursor:pointer;margin:5px 4px 5px 0}
+button:hover{filter:brightness(1.13)}button.secondary{background:#e7f1fa;color:var(--navy);border:1px solid #b7cadd}
+button.green{background:#087b62}button.gold{background:#a66a00}
+.feedback{font-weight:bold;margin:8px 0;min-height:24px}.good{color:#087b52}.bad{color:#b33a45}
+.question{padding:12px 0;border-bottom:1px solid #e2eaf1}.question:last-child{border:0}
+.options{display:grid;gap:5px;margin-top:7px}.options label{font-weight:normal;display:flex;align-items:flex-start;gap:8px;background:#f7fafc;padding:7px 9px;border-radius:8px}
+.options input{margin-top:5px}
+table{border-collapse:collapse;width:100%;margin:10px 0}th,td{border:1px solid #b8cada;padding:8px;text-align:left}th{background:#e8f4fb}
+.graph-wrap{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;align-items:center}
+canvas{width:100%;max-width:540px;background:white;border:1px solid #b9c9d8;border-radius:10px}
+.range-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.range-row input{flex:1;min-width:150px}
+.progress{height:10px;background:#e3edf5;border-radius:20px;overflow:hidden}.progress span{display:block;height:100%;width:0;background:#16a085;transition:width .3s}
+footer{text-align:center;color:#dceeff;background:#103d70;padding:17px;font-weight:bold}
+small,.muted{color:var(--muted)}
+@media(max-width:760px){.student-grid,.cols,.three,.graph-wrap{grid-template-columns:1fr}.hero{display:block}.tag{display:inline-block;margin-top:12px}}
+@media print{nav,button,.student{display:none!important}body{background:white}.panel{break-inside:avoid;box-shadow:none}}
+</style>
+</head>
+<body>
+<header><div class="hero"><div><h1>Motion: Let’s Observe, Measure & Explain!</h1><p class="subtitle">Grade 7 Science • Displacement and Velocity • Graphing Motion • Variables in an Investigation</p></div><div class="tag">LEARN • EXPLORE • PRACTISE</div></div></header>
+<main>
+<section class="student">
+<h2 style="margin:0 0 12px">Learner Information</h2>
+<div class="student-grid">
+<div><label for="learner">Learner's full name</label><input id="learner" type="text" placeholder="Type your complete name"></div>
+<div><label for="section">Grade & section</label><input id="section" type="text" placeholder="e.g. Grade 7 - Mabini"></div>
+<div><label for="date">Date</label><input id="date" type="text" readonly></div>
+</div>
+<p class="muted" style="margin:10px 0 0">Enter your name before answering. Your personal learning report will use your name as its file name.</p>
+</section>
+<nav aria-label="Lesson navigation">
+<a href="#goals">Objectives</a><a href="#distance">Distance & Displacement</a><a href="#velocity">Speed & Velocity</a><a href="#graphs">Graphing Motion</a><a href="#variables">Variables</a><a href="#activities">Activities</a><a href="#assessment">Assessment</a>
+</nav>
+<div class="callout"><strong>How to use this lesson:</strong> Read each explanation, study the illustrations, try the guided examples, and complete the activities. Select <em>Check Answer</em> to get immediate feedback.</div>
+<section class="panel blue" id="goals"><h2>🎯 Learning Targets</h2><div class="content">
+<p>By the end of this lesson, you should be able to:</p>
+<ul><li>Differentiate distance from displacement using a reference point.</li><li>Distinguish speed from velocity and solve simple problems.</li><li>Interpret distance-time graphs and identify uniform, changing, and stationary motion.</li><li>Identify independent, dependent, and controlled variables in a fair investigation.</li></ul>
+<p><strong>Remember:</strong> A <em>reference point</em> is a place or object used to describe an object's position or motion.</p>
+</div></section>
+
+<section class="panel blue" id="distance"><h2>1. Distance vs. Displacement</h2><div class="content">
+<p class="lead">Both describe movement, but they answer different questions.</p>
+<div class="cols">
+<div class="card tint-blue"><h3>Distance</h3><ul><li>The total length of the path travelled.</li><li>A <strong>scalar</strong> quantity: it has magnitude only.</li><li>Always zero or positive.</li></ul><div class="visual">
+<svg viewBox="0 0 300 125" role="img" aria-label="A student walks from home to a store and returns home"><rect x="15" y="70" width="72" height="42" rx="4" fill="#f6c66d" stroke="#744d20" stroke-width="3"/><path d="M8 72 L50 36 L95 72" fill="#e45b4e" stroke="#744d20" stroke-width="3"/><rect x="43" y="83" width="18" height="29" fill="#9bd3f5"/><rect x="211" y="65" width="70" height="47" fill="#d7e8f7" stroke="#24527c" stroke-width="3"/><path d="M205 65 L246 38 L287 65" fill="#f08d50" stroke="#24527c" stroke-width="3"/><text x="50" y="123" text-anchor="middle" font-size="12">HOME</text><text x="246" y="123" text-anchor="middle" font-size="12">STORE</text><path d="M90 54 Q150 8 208 54" fill="none" stroke="#1685d5" stroke-width="4"/><path d="M200 44 L210 54 L196 59" fill="none" stroke="#1685d5" stroke-width="3"/><path d="M210 83 Q150 120 90 83" fill="none" stroke="#1685d5" stroke-width="3" stroke-dasharray="5 4"/><text x="150" y="22" text-anchor="middle" font-size="13" fill="#103d70">3 km</text><text x="150" y="111" text-anchor="middle" font-size="11" fill="#103d70">3 km back</text></svg>
+</div><p><strong>Example:</strong> You walk 3 km to a store and 3 km back home.</p><p class="formula">Distance = 3 km + 3 km = 6 km</p></div>
+<div class="card tint-green"><h3>Displacement</h3><ul><li>The straight-line change from starting point to ending point.</li><li>A <strong>vector</strong>: it has magnitude and direction.</li><li>Can be zero if you return to where you started.</li></ul><div class="visual">
+<svg viewBox="0 0 300 125" role="img" aria-label="A straight arrow from home to a store labelled 3 kilometres east"><rect x="15" y="70" width="72" height="42" rx="4" fill="#f6c66d" stroke="#744d20" stroke-width="3"/><path d="M8 72 L50 36 L95 72" fill="#e45b4e" stroke="#744d20" stroke-width="3"/><rect x="43" y="83" width="18" height="29" fill="#9bd3f5"/><rect x="211" y="65" width="70" height="47" fill="#d7e8f7" stroke="#24527c" stroke-width="3"/><path d="M205 65 L246 38 L287 65" fill="#f08d50" stroke="#24527c" stroke-width="3"/><path d="M98 77 H197 M185 65 L198 77 L185 89" fill="none" stroke="#07865e" stroke-width="5"/><text x="150" y="57" text-anchor="middle" font-size="14" fill="#087b52" font-weight="bold">3 km EAST</text><text x="50" y="123" text-anchor="middle" font-size="12">HOME</text><text x="246" y="123" text-anchor="middle" font-size="12">STORE</text></svg>
+</div><p><strong>Example:</strong> If you finish at the store, 3 km east of home, your displacement is 3 km east.</p><p class="formula" style="background:#d8f4e4">Displacement = 3 km east</p></div>
+</div>
+<div class="callout"><strong>Key idea:</strong> If you walk 3 km east and then 3 km west back to your starting point, your distance is 6 km but your displacement is 0 km.</div>
+<h3>Guided example</h3><p>A cyclist travels 5 km north, then 2 km south. Find the total distance and displacement.</p>
+<ul><li>Distance = 5 + 2 = <strong>7 km</strong></li><li>Displacement = 5 km north − 2 km south = <strong>3 km north</strong></li></ul>
+<div class="card"><strong>Try it:</strong> Ana walks 4 m east, then 4 m west. What are her distance and displacement?</p>
+<div class="options"><label><input type="radio" name="d1" value="a"> Distance 0 m; displacement 8 m east</label><label><input type="radio" name="d1" value="b"> Distance 8 m; displacement 0 m</label><label><input type="radio" name="d1" value="c"> Distance 4 m; displacement 4 m west</label></div><button onclick="checkRadio('d1','b','d1fb','Correct! She travelled 8 m in total and ended where she started.','Not quite. Add the path lengths for distance, then compare start and finish for displacement.')">Check Answer</button><div class="feedback" id="d1fb"></div></div>
+</div></section>
+
+<section class="panel purple" id="velocity"><h2>2. Speed vs. Velocity</h2><div class="content">
+<p class="lead">Speed tells how fast. Velocity tells how fast and in what direction.</p>
+<div class="cols">
+<div class="card tint-yellow"><h3>Speed</h3><ul><li>How fast an object moves.</li><li>Scalar quantity; no direction.</li><li>Common units: m/s and km/h.</li></ul><div class="formula">Speed = Distance ÷ Time</div><div class="visual"><svg viewBox="0 0 300 100" role="img" aria-label="Red car moving along a road"><rect x="5" y="75" width="290" height="17" fill="#8a9aa8"/><path d="M75 67 L90 43 Q100 28 130 28 L170 28 Q190 32 205 60 L230 66 Z" fill="#e44e45" stroke="#762b2b" stroke-width="3"/><circle cx="105" cy="68" r="13" fill="#24384b"/><circle cx="198" cy="68" r="13" fill="#24384b"/><path d="M20 34 H60 M30 47 H65" stroke="#1685d5" stroke-width="4"/></svg></div><p><strong>Example:</strong> A learner runs 100 m in 20 s.</p><p>Speed = 100 m ÷ 20 s = <strong>5 m/s</strong></p></div>
+<div class="card tint-purple"><h3>Velocity</h3><ul><li>Speed in a stated direction.</li><li>Vector quantity; magnitude and direction.</li><li>Direction may be north, south, east, west, etc.</li></ul><div class="formula" style="background:#e6ddff">Velocity = Displacement ÷ Time</div><div class="visual"><svg viewBox="0 0 300 100" role="img" aria-label="Blue car with an arrow pointing east"><rect x="5" y="75" width="290" height="17" fill="#8a9aa8"/><path d="M35 67 L50 43 Q60 28 90 28 L130 28 Q150 32 165 60 L190 66 Z" fill="#318acb" stroke="#174c79" stroke-width="3"/><circle cx="65" cy="68" r="13" fill="#24384b"/><circle cx="158" cy="68" r="13" fill="#24384b"/><path d="M200 35 H285 M271 22 L286 35 L271 48" fill="none" stroke="#126ac0" stroke-width="5"/><text x="245" y="18" font-size="12" text-anchor="middle" fill="#103d70">EAST</text></svg></div><p><strong>Example:</strong> A car's displacement is 60 km east in 2 h.</p><p>Velocity = 60 km east ÷ 2 h = <strong>30 km/h east</strong></p></div>
+</div>
+<div class="callout"><strong>Compare:</strong> “A bus moves at 40 km/h” describes speed. “A bus moves at 40 km/h south” describes velocity.</div>
+<h3>Worked problem</h3><p>A student walks 150 m east in 50 seconds.</p><ol><li>Average speed = total distance ÷ time = 150 ÷ 50 = <strong>3 m/s</strong>.</li><li>Average velocity = displacement ÷ time = 150 m east ÷ 50 s = <strong>3 m/s east</strong>.</li></ol>
+<div class="card"><strong>Quick check:</strong> Which statement describes velocity?
+<div class="options"><label><input type="radio" name="v1" value="a"> The dog runs at 4 m/s.</label><label><input type="radio" name="v1" value="b"> The dog runs at 4 m/s toward the gate.</label><label><input type="radio" name="v1" value="c"> The dog runs for 10 seconds.</label></div><button onclick="checkRadio('v1','b','v1fb','Correct! Velocity includes direction.','Look for both a rate and a direction.')">Check Answer</button><div class="feedback" id="v1fb"></div></div>
+</div></section>
+
+<section class="panel teal" id="graphs"><h2>3. Graphing Motion</h2><div class="content">
+<p class="lead">A distance-time graph shows how the distance of an object changes as time passes.</p>
+<div class="cols">
+<div class="card tint-green"><h3>How to read the graph</h3><ul><li>Time is usually on the horizontal (x) axis.</li><li>Distance is usually on the vertical (y) axis.</li><li>A straight sloping line shows constant speed.</li><li>A steeper line means faster speed.</li><li>A horizontal line means the object is stationary.</li><li>A curved line can show changing speed.</li></ul></div>
+<div class="card"><h3>Example: uniform motion</h3><p>A toy car travels 20 m every 4 seconds.</p><canvas id="motionGraph" width="500" height="300" aria-label="Distance-time graph with a straight rising line"></canvas><p class="muted">The straight line has a constant slope: 5 m/s.</p></div>
+</div>
+<h3>Explore the graph</h3><p>Move the slider to change the car's speed. Observe how the line changes.</p>
+<div class="card">
+<div class="range-row"><label for="speedSlider">Car speed:</label><input id="speedSlider" type="range" min="1" max="10" value="4" oninput="updateGraph()"><strong><span id="speedValue">4</span> m/s</strong></div>
+<canvas id="exploreGraph" width="500" height="300" aria-label="Interactive distance-time graph"></canvas>
+<p id="graphExplain" class="feedback">A 4 m/s car travels 40 m in 10 seconds.</p>
+</div>
+<div class="cols">
+<div class="card tint-blue"><h3>Uniform motion</h3><p>Equal distances are travelled in equal time intervals. A distance-time graph is a straight sloping line.</p></div>
+<div class="card tint-yellow"><h3>Stationary object</h3><p>The distance does not change as time passes. A distance-time graph is a horizontal line.</p></div>
+</div>
+<div class="card"><strong>Interpret:</strong> A distance-time graph is a straight line from 0 m at 0 s to 60 m at 10 s. What is the speed?
+<div class="options"><label><input type="radio" name="g1" value="a"> 6 m/s</label><label><input type="radio" name="g1" value="b"> 10 m/s</label><label><input type="radio" name="g1" value="c"> 60 m/s</label></div><button onclick="checkRadio('g1','a','g1fb','Correct! Speed is 60 m ÷ 10 s = 6 m/s.','Use the slope: change in distance divided by change in time.')">Check Answer</button><div class="feedback" id="g1fb"></div></div>
+</div></section>
+
+<section class="panel gold" id="variables"><h2>4. Identifying and Controlling Variables</h2><div class="content">
+<p class="lead">A fair investigation changes one factor, measures the result, and keeps other important factors the same.</p>
+<div class="cols">
+<div class="card tint-purple"><h3>Independent variable</h3><p>The factor the investigator deliberately changes. It is the possible cause.</p><p><strong>Question:</strong> What do I change?</p></div>
+<div class="card tint-blue"><h3>Dependent variable</h3><p>The factor that is measured or observed. It is the result.</p><p><strong>Question:</strong> What do I measure?</p></div>
+<div class="card tint-green"><h3>Controlled variables</h3><p>The factors kept the same so the test is fair.</p><p><strong>Question:</strong> What must stay the same?</p></div>
+<div class="card tint-yellow"><h3>Why control variables?</h3><p>They help make results fair, accurate, and reliable so we can tell what caused the change.</p></div>
+</div>
+<h3>Investigation example: Does ramp height affect a toy car's speed?</h3>
+<div class="visual"><svg viewBox="0 0 560 170" role="img" aria-label="Toy car rolling down a ramp raised by a block"><path d="M90 135 L470 135" stroke="#5c6c7c" stroke-width="7"/><path d="M120 45 L440 135" stroke="#986c3b" stroke-width="10"/><rect x="120" y="45" width="45" height="90" fill="#d6a66b" stroke="#79512b" stroke-width="3"/><rect x="185" y="51" width="90" height="34" rx="12" fill="#318acb" stroke="#174c79" stroke-width="3" transform="rotate(16 230 68)"/><circle cx="205" cy="87" r="11" fill="#26384a"/><circle cx="268" cy="105" r="11" fill="#26384a"/><path d="M305 42 H450 M435 28 L451 42 L435 56" fill="none" stroke="#e44e45" stroke-width="4"/><text x="380" y="25" font-size="16" fill="#103d70">Car rolls down</text><text x="90" y="157" font-size="14" fill="#103d70">Raise or lower the ramp</text></svg></div>
+<table><tr><th>Type of variable</th><th>In this investigation</th></tr><tr><td>Independent</td><td>Height of the ramp</td></tr><tr><td>Dependent</td><td>Speed of the toy car (measured over a set distance)</td></tr><tr><td>Controlled</td><td>Same toy car, same ramp surface, same starting point, same distance, same release method</td></tr></table>
+<div class="callout"><strong>Fair-test tip:</strong> Change only the ramp height. If you also change the car or ramp surface, you will not know which change affected the speed.</div>
+</div></section>
+
+<section class="panel pink" id="activities"><h2>5. Learning Activities: Apply What You Know</h2><div class="content">
+<div class="card"><h3>Activity A — Map the journey</h3><p>Ben walks 6 m east from the classroom to the library, then 2 m west to meet a friend.</p><ol><li>What total distance did Ben travel?</li><li>What is his displacement from the classroom?</li><li>Which answer needs a direction?</li></ol><label for="actA">Write your answers and explanation</label><textarea id="actA" rows="3" style="width:100%;padding:10px;border:1px solid #9fb6cc;border-radius:9px;font:inherit" placeholder="Distance = ...; displacement = ..."></textarea><button class="secondary" onclick="reveal('hintA')">Show hint</button><p id="hintA" hidden class="feedback">Hint: Add both path lengths for distance. For displacement, compare the final position with the starting point.</p></div>
+<div class="card"><h3>Activity B — Calculate the speed</h3><p>A tricycle travels 240 metres in 30 seconds. Calculate its average speed.</p><div class="formula">Speed = distance ÷ time</div><label for="actB">Your answer (include unit)</label><input id="actB" type="text" placeholder="e.g. 8 m/s"><button onclick="checkText('actB','actBfb',['8 m/s','8m/s','8 metres per second'],'Correct! 240 ÷ 30 = 8 m/s.','Try dividing 240 metres by 30 seconds.')">Check Answer</button><div id="actBfb" class="feedback"></div></div>
+<div class="card"><h3>Activity C — Design a fair test</h3><p>Your group wants to investigate whether the surface of a ramp affects how far a toy car travels after leaving the ramp.</p><label for="actC1">Independent variable (what will you change?)</label><input id="actC1" type="text" placeholder="Your answer"><label for="actC2" style="margin-top:9px">Dependent variable (what will you measure?)</label><input id="actC2" type="text" placeholder="Your answer"><label for="actC3" style="margin-top:9px">Name two controlled variables</label><input id="actC3" type="text" placeholder="Your answers"><p class="muted">Discuss your answers with a classmate or teacher.</p></div>
+
+<div class="card tint-blue"><h3>Activity D — Be a Motion Graph Detective 📈</h3>
+<p>Study the distance-time data for a learner walking along a straight path.</p>
+<table><tr><th>Time (s)</th><td>0</td><td>2</td><td>4</td><td>6</td><td>8</td></tr>
+<tr><th>Distance (m)</th><td>0</td><td>4</td><td>8</td><td>8</td><td>16</td></tr></table>
+<p>Answer the questions using the table.</p>
+<div class="question"><strong>1. During which time interval was the learner stationary?</strong>
+<div class="options"><label><input type="radio" name="actD1" value="a"> 0–2 s</label><label><input type="radio" name="actD1" value="b"> 2–4 s</label><label><input type="radio" name="actD1" value="c"> 4–6 s</label></div>
+<button onclick="checkRadio('actD1','c','actD1fb','Correct! The distance stayed at 8 m from 4 to 6 seconds.','Stationary means the distance does not change.')">Check Answer</button><div id="actD1fb" class="feedback"></div></div>
+<div class="question"><strong>2. What distance did the learner travel from 0 to 4 seconds?</strong>
+<div class="options"><label><input type="radio" name="actD2" value="a"> 4 m</label><label><input type="radio" name="actD2" value="b"> 8 m</label><label><input type="radio" name="actD2" value="c"> 16 m</label></div>
+<button onclick="checkRadio('actD2','b','actD2fb','Correct! The distance increased from 0 m to 8 m.','Compare the distance at 0 s and 4 s.')">Check Answer</button><div id="actD2fb" class="feedback"></div></div>
+<div class="question"><strong>3. What was the average speed from 0 to 4 seconds?</strong>
+<div class="options"><label><input type="radio" name="actD3" value="a"> 2 m/s</label><label><input type="radio" name="actD3" value="b"> 4 m/s</label><label><input type="radio" name="actD3" value="c"> 8 m/s</label></div>
+<button onclick="checkRadio('actD3','a','actD3fb','Correct! 8 m ÷ 4 s = 2 m/s.','Use speed = distance ÷ time.')">Check Answer</button><div id="actD3fb" class="feedback"></div></div>
+</div>
+<div class="card tint-yellow"><h3>Activity E — Speed or Velocity? 🚲</h3>
+<p>Read each situation. Decide whether it describes speed or velocity.</p>
+<div class="question"><strong>1. A bicycle moves at 12 km/h.</strong>
+<div class="options"><label><input type="radio" name="actE1" value="a"> Speed</label><label><input type="radio" name="actE1" value="b"> Velocity</label></div>
+<button onclick="checkRadio('actE1','a','actE1fb','Correct! No direction is given, so this is speed.','Velocity includes a direction.')">Check Answer</button><div id="actE1fb" class="feedback"></div></div>
+<div class="question"><strong>2. A jeepney travels at 30 km/h north.</strong>
+<div class="options"><label><input type="radio" name="actE2" value="a"> Speed</label><label><input type="radio" name="actE2" value="b"> Velocity</label></div>
+<button onclick="checkRadio('actE2','b','actE2fb','Correct! The statement includes direction.','Look for the direction of motion.')">Check Answer</button><div id="actE2fb" class="feedback"></div></div>
+<p><strong>3. Solve:</strong> A learner travels 90 m east in 30 s. What is the average velocity?</p>
+<label for="actE3">Write your answer, including direction</label><input id="actE3" type="text" placeholder="e.g. 3 m/s east">
+<button onclick="checkText('actE3','actE3fb',['3 m/s east','3m/s east','3 metres per second east'],'Correct! 90 m ÷ 30 s = 3 m/s east.','Divide displacement by time and include the direction east.')">Check Answer</button><div id="actE3fb" class="feedback"></div>
+</div>
+<div class="card tint-green"><h3>Activity F — Plan Your Own Fair Test 🔬</h3>
+<p>Your group will investigate: <strong>Does the height of a ramp affect the time a toy car takes to travel a fixed distance?</strong></p>
+<label for="actF1">Independent variable — what will you change?</label><input id="actF1" type="text" placeholder="Your answer">
+<label for="actF2" style="margin-top:9px">Dependent variable — what will you measure?</label><input id="actF2" type="text" placeholder="Your answer">
+<label for="actF3" style="margin-top:9px">List two controlled variables</label><input id="actF3" type="text" placeholder="Your answers">
+<label for="actF4" style="margin-top:9px">How will you make the test fair and reliable?</label><textarea id="actF4" rows="2" style="width:100%;padding:10px;border:1px solid #9fb6cc;border-radius:9px;font:inherit" placeholder="Explain how you will keep the test fair and repeat measurements..."></textarea>
+<button class="secondary" onclick="reveal('hintF')">Show planning hint</button><p id="hintF" hidden class="feedback">Change only the ramp height. Keep the same car, ramp surface, distance and release method. Measure the time and repeat each test.</p>
+</div>
+<div class="card tint-purple"><h3>Activity G — Explain It in Your Own Words 💬</h3>
+<p>Imagine your friend says, “If I walk around the school and return to my classroom, my distance and displacement are both zero.” Explain what is incorrect in this statement.</p>
+<label for="actG">Your explanation</label><textarea id="actG" rows="3" style="width:100%;padding:10px;border:1px solid #9fb6cc;border-radius:9px;font:inherit" placeholder="I agree/disagree because..."></textarea>
+<p class="muted">Use the words total path, starting point, ending point, distance and displacement in your explanation.</p></div>
+</div></section>
+
+<section class="panel blue" id="assessment"><h2>6. Summative Assessment — 12 Items</h2><div class="content">
+<p>Choose the best answer for each item. Submit when you have answered all questions. Your score will be included in your downloadable learner report.</p>
+<div class="progress"><span id="quizProgress"></span></div><p class="muted"><span id="answeredCount">0</span> of 12 answered</p>
+<form id="quizForm">
+<div class="question"><strong>1. What is the total length of the path travelled by an object called?</strong><div class="options"><label><input type="radio" name="q1" value="a"> Displacement</label><label><input type="radio" name="q1" value="b"> Distance</label><label><input type="radio" name="q1" value="c"> Velocity</label></div></div>
+<div class="question"><strong>2. Which quantity includes both magnitude and direction?</strong><div class="options"><label><input type="radio" name="q2" value="a"> Time</label><label><input type="radio" name="q2" value="b"> Speed</label><label><input type="radio" name="q2" value="c"> Displacement</label></div></div>
+<div class="question"><strong>3. A learner walks 5 m north then 5 m south. What is the displacement?</strong><div class="options"><label><input type="radio" name="q3" value="a"> 10 m</label><label><input type="radio" name="q3" value="b"> 5 m south</label><label><input type="radio" name="q3" value="c"> 0 m</label></div></div>
+<div class="question"><strong>4. Which statement describes speed?</strong><div class="options"><label><input type="radio" name="q4" value="a"> 12 km/h west</label><label><input type="radio" name="q4" value="b"> 12 km/h</label><label><input type="radio" name="q4" value="c"> 12 km west</label></div></div>
+<div class="question"><strong>5. A runner covers 100 m in 20 s. What is the average speed?</strong><div class="options"><label><input type="radio" name="q5" value="a"> 5 m/s</label><label><input type="radio" name="q5" value="b"> 20 m/s</label><label><input type="radio" name="q5" value="c"> 2 m/s</label></div></div>
+<div class="question"><strong>6. A car has a displacement of 30 km east in 1 hour. Its average velocity is:</strong><div class="options"><label><input type="radio" name="q6" value="a"> 30 km/h</label><label><input type="radio" name="q6" value="b"> 30 km east</label><label><input type="radio" name="q6" value="c"> 30 km/h east</label></div></div>
+<div class="question"><strong>7. In a distance-time graph, time is usually shown on the:</strong><div class="options"><label><input type="radio" name="q7" value="a"> Horizontal axis</label><label><input type="radio" name="q7" value="b"> Vertical axis</label><label><input type="radio" name="q7" value="c"> Graph title only</label></div></div>
+<div class="question"><strong>8. What does a horizontal line on a distance-time graph mean?</strong><div class="options"><label><input type="radio" name="q8" value="a"> The object is speeding up</label><label><input type="radio" name="q8" value="b"> The object is stationary</label><label><input type="radio" name="q8" value="c"> The object is moving faster</label></div></div>
+<div class="question"><strong>9. A steeper straight line on a distance-time graph indicates:</strong><div class="options"><label><input type="radio" name="q9" value="a"> Greater speed</label><label><input type="radio" name="q9" value="b"> Less distance</label><label><input type="radio" name="q9" value="c"> No movement</label></div></div>
+<div class="question"><strong>10. The factor deliberately changed by an investigator is the:</strong><div class="options"><label><input type="radio" name="q10" value="a"> Dependent variable</label><label><input type="radio" name="q10" value="b"> Controlled variable</label><label><input type="radio" name="q10" value="c"> Independent variable</label></div></div>
+<div class="question"><strong>11. The factor measured in an investigation is the:</strong><div class="options"><label><input type="radio" name="q11" value="a"> Dependent variable</label><label><input type="radio" name="q11" value="b"> Independent variable</label><label><input type="radio" name="q11" value="c"> Controlled variable</label></div></div>
+<div class="question"><strong>12. Why should controlled variables be kept the same?</strong><div class="options"><label><input type="radio" name="q12" value="a"> To make the investigation longer</label><label><input type="radio" name="q12" value="b"> To make it a fair test</label><label><input type="radio" name="q12" value="c"> To change many factors at once</label></div></div>
+<button type="button" class="green" onclick="gradeQuiz()">Submit Assessment</button>
+<button type="button" class="secondary" onclick="resetQuiz()">Clear answers</button>
+<div id="quizResult" class="feedback" aria-live="polite"></div>
+</form>
+</div></section>
+
+<section class="panel teal"><h2>7. Reflection: Think Like a Scientist</h2><div class="content">
+<p>Complete these sentences in your own words.</p>
+<label for="reflect1">One thing I learned about motion is...</label><textarea id="reflect1" rows="2" style="width:100%;padding:10px;border:1px solid #9fb6cc;border-radius:9px;font:inherit"></textarea>
+<label for="reflect2" style="margin-top:10px">One question I still have is...</label><textarea id="reflect2" rows="2" style="width:100%;padding:10px;border:1px solid #9fb6cc;border-radius:9px;font:inherit"></textarea>
+<div class="callout"><strong>Remember the science process:</strong> Observe • Measure • Record • Graph • Analyze • Draw conclusions.</div>
+</div></section>
+<section class="panel pink"><h2>📥 Download Your Learning Output</h2><div class="content">
+<p>When you are finished, download a personal report containing your learner information, assessment score, activity responses, and reflection. Your teacher can ask you to submit this file.</p>
+<button class="green" onclick="downloadReport()">Download My Learning Output</button>
+<button class="secondary" onclick="window.print()">Print Lesson</button>
+<div id="downloadFeedback" class="feedback"></div>
+<p class="muted">The report is generated on your device. No learner information is sent to a server.</p>
+</div></section>
+</main>
+<footer>Observe • Measure • Graph • Analyze • Draw Conclusions<br><small style="color:#c8e4ff">Grade 7 Science Interactive Learning Resource</small></footer>
+<script>
+document.getElementById('date').value=new Date().toLocaleDateString();
+const answers={q1:'b',q2:'c',q3:'c',q4:'b',q5:'a',q6:'c',q7:'a',q8:'b',q9:'a',q10:'c',q11:'a',q12:'b'};
+let quizScore=null, quizSubmitted=false;
+function checkRadio(group,correct,id,yes,no){const selected=document.querySelector('input[name="'+group+'"]:checked');const el=document.getElementById(id);if(!selected){el.textContent='Please choose an answer first.';el.className='feedback bad';return;}el.textContent=selected.value===correct?yes:no;el.className='feedback '+(selected.value===correct?'good':'bad');}
+function checkText(inputId,feedbackId,valid,yes,no){const v=document.getElementById(inputId).value.trim().toLowerCase().replace(/\s+/g,' ');const el=document.getElementById(feedbackId);if(valid.includes(v)){el.textContent=yes;el.className='feedback good';}else{el.textContent=no;el.className='feedback bad';}}
+function reveal(id){const el=document.getElementById(id);el.hidden=!el.hidden;}
+function updateCount(){let n=0;for(let i=1;i<=12;i++)if(document.querySelector('input[name="q'+i+'"]:checked'))n++;document.getElementById('answeredCount').textContent=n;document.getElementById('quizProgress').style.width=(n/12*100)+'%';}
+document.getElementById('quizForm').addEventListener('change',updateCount);
+function gradeQuiz(){let n=0,missing=[];for(let i=1;i<=12;i++){const s=document.querySelector('input[name="q'+i+'"]:checked');if(!s)missing.push(i);else if(s.value===answers['q'+i])n++;}if(missing.length){document.getElementById('quizResult').textContent='Please answer all items before submitting. Still unanswered: '+missing.join(', ')+'.';document.getElementById('quizResult').className='feedback bad';return;}quizScore=n;quizSubmitted=true;const pct=Math.round(n/12*100);document.getElementById('quizResult').textContent='Your score: '+n+'/12 ('+pct+'%). '+(pct>=80?'Excellent work! Keep investigating.':pct>=60?'Good effort! Review the lesson and keep practising.':'Keep learning. Review the examples and try again.');document.getElementById('quizResult').className='feedback '+(pct>=60?'good':'bad');}
+function resetQuiz(){document.getElementById('quizForm').reset();quizScore=null;quizSubmitted=false;document.getElementById('quizResult').textContent='';updateCount();}
+function drawGraph(id,speed,maxTime=10,maxDist=100){const c=document.getElementById(id);if(!c)return;const ctx=c.getContext('2d'),w=c.width,h=c.height;ctx.clearRect(0,0,w,h);const L=48,R=18,T=18,B=42,pw=w-L-R,ph=h-T-B;ctx.strokeStyle='#d6e2ec';ctx.lineWidth=1;ctx.font='13px Arial';ctx.fillStyle='#233d59';for(let i=0;i<=5;i++){let x=L+pw*i/5,y=T+ph*i/5;ctx.beginPath();ctx.moveTo(x,T);ctx.lineTo(x,T+ph);ctx.stroke();ctx.beginPath();ctx.moveTo(L,y);ctx.lineTo(L+pw,y);ctx.stroke();ctx.fillText(Math.round(maxTime*i/5),x-5,T+ph+19);ctx.fillText(Math.round(maxDist*(5-i)/5),8,y+4);}ctx.strokeStyle='#183d67';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(L,T);ctx.lineTo(L,T+ph);ctx.lineTo(L+pw,T+ph);ctx.stroke();ctx.fillText('Time (s)',w/2-20,h-7);ctx.save();ctx.translate(14,h/2+20);ctx.rotate(-Math.PI/2);ctx.fillText('Distance (m)',0,0);ctx.restore();ctx.strokeStyle='#1685d5';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(L,T+ph);let end=Math.min(speed*maxTime,maxDist);ctx.lineTo(L+pw*maxTime/maxTime,T+ph-ph*end/maxDist);ctx.stroke();ctx.fillStyle='#087b52';ctx.beginPath();ctx.arc(L+pw,T+ph-ph*end/maxDist,5,0,Math.PI*2);ctx.fill();}
+function updateGraph(){const s=+document.getElementById('speedSlider').value;document.getElementById('speedValue').textContent=s;drawGraph('exploreGraph',s,10,100);document.getElementById('graphExplain').textContent='At '+s+' m/s, the car travels '+(s*10)+' m in 10 seconds.';}
+drawGraph('motionGraph',10,10,100);updateGraph();
+function safeName(s){return s.trim().replace(/[^a-z0-9_-]+/gi,'_').replace(/^_+|_+$/g,'')||'Learner';}
+function downloadReport(){const name=document.getElementById('learner').value.trim();if(!name){document.getElementById('downloadFeedback').textContent='Please enter your full name before downloading.';document.getElementById('downloadFeedback').className='feedback bad';document.getElementById('learner').focus();return;}
+const section=document.getElementById('section').value.trim()||'Not provided';const date=document.getElementById('date').value;let lines=['GRADE 7 SCIENCE — LEARNER OUTPUT','Motion: Displacement and Velocity, Graphing Motion, and Variables','', 'Learner: '+name,'Grade & Section: '+section,'Date: '+date,'','SUMMATIVE ASSESSMENT'];if(quizSubmitted){lines.push('Score: '+quizScore+'/12 ('+Math.round(quizScore/12*100)+'%)');for(let i=1;i<=12;i++){const s=document.querySelector('input[name="q'+i+'"]:checked');lines.push('Item '+i+': '+(s?s.value.toUpperCase():'Not answered')+' — '+(s&&s.value===answers['q'+i]?'Correct':'Incorrect'));}}else lines.push('Assessment: Not yet submitted');
+lines.push('','LEARNING ACTIVITIES','Activity A — Map the journey:',document.getElementById('actA').value||'No response','Activity B — Calculate the speed:',document.getElementById('actB').value||'No response','Activity C — Fair test','Independent variable: '+(document.getElementById('actC1').value||'No response'),'Dependent variable: '+(document.getElementById('actC2').value||'No response'),'Controlled variables: '+(document.getElementById('actC3').value||'No response'),'Activity D — Graph detective: '+['actD1','actD2','actD3'].map(x=>{const s=document.querySelector('input[name="'+x+'"]:checked');return s?s.value.toUpperCase():'Not answered';}).join(', '),'Activity E — Speed or velocity: '+['actE1','actE2'].map(x=>{const s=document.querySelector('input[name="'+x+'"]:checked');return s?s.value.toUpperCase():'Not answered';}).join(', '),'Activity E calculation: '+(document.getElementById('actE3').value||'No response'),'Activity F — Independent variable: '+(document.getElementById('actF1').value||'No response'),'Dependent variable: '+(document.getElementById('actF2').value||'No response'),'Controlled variables: '+(document.getElementById('actF3').value||'No response'),'Fair-test plan: '+(document.getElementById('actF4').value||'No response'),'Activity G — Explanation: '+(document.getElementById('actG').value||'No response'),'','REFLECTION','One thing I learned: '+(document.getElementById('reflect1').value||'No response'),'One question I still have: '+(document.getElementById('reflect2').value||'No response'),'','End of learner output.');const blob=new Blob([lines.join('\n')],{type:'text/plain;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=safeName(name)+'_Grade7_Science_Motion_Output.txt';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);document.getElementById('downloadFeedback').textContent='Your learning output is ready. Check your Downloads folder.';document.getElementById('downloadFeedback').className='feedback good';}
+</script>
+</body></html>
