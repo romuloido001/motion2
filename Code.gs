@@ -73,6 +73,7 @@ function saveSubmission(data) {
  * Receives one learner submission as a JSON POST request.
  */
 function doPost(e) {
+  let requestId = '';
   try {
     if (!e) throw new Error('No submission data was received.');
 
@@ -92,11 +93,14 @@ function doPost(e) {
     }
     if (!data) throw new Error('No submission payload was received.');
 
+    requestId = cleanText(data.requestId, 100);
     const result = appendSubmission_(data);
+    result.requestId = requestId;
     return submissionPage_(result);
   } catch (err) {
     return submissionPage_({
       success: false,
+      requestId: requestId,
       message: err && err.message ? err.message : 'Unable to save submission.'
     });
   }
@@ -106,7 +110,7 @@ function doPost(e) {
 function submissionPage_(result) {
   const safeJson = JSON.stringify(result).replace(/</g, '\\u003c');
   const html = '<!doctype html><html><head><meta charset="utf-8"></head><body>' +
-    '<script>window.parent.postMessage({type:"motion-sheet-result",result:' + safeJson + '},"*");</script>' +
+    '<script>window.top.postMessage({type:"motion-sheet-result",result:' + safeJson + '},"*");</script>' +
     '<p>Submission processed. You may close this frame.</p></body></html>';
   return HtmlService.createHtmlOutput(html)
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);

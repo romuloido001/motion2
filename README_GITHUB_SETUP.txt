@@ -30,3 +30,7 @@ IMPORTANT
 - The endpoint URL is already configured in index.html. If you create a completely new Apps Script deployment with a different URL, update APPS_SCRIPT_ENDPOINT in index.html before publishing.
 - Do not test by opening the HTML as a local file. Test the published GitHub Pages URL.
 - A learner response contains names and schoolwork. Share the Sheet only with authorized school personnel and follow your school's learner-data privacy rules.
+
+
+TROUBLESHOOTING UPDATE (confirmation timeout)
+The updated Code.gs sends its confirmation message to the top-level GitHub page using window.top.postMessage. The updated index.html matches that message using a unique request ID. This handles the extra iframe layer used by Google Apps Script HtmlService. Replace BOTH files and deploy a NEW Apps Script version before testing. Then replace index.html in GitHub Pages. After a timeout, check the response sheet before retrying to avoid duplicate rows.
