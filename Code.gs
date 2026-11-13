@@ -74,17 +74,42 @@ function saveSubmission(data) {
  */
 function doPost(e) {
   try {
-    if (!e || !e.postData || !e.postData.contents) {
-      throw new Error('No submission data was received.');
-    }
+    if (!e) throw new Error('No submission data was received.');
 
-    return jsonOutput(appendSubmission_(JSON.parse(e.postData.contents)));
+    // GitHub Pages submits a normal HTML form with a URL-encoded payload.
+    // Keep JSON POST support for other clients as well.
+    let data = null;
+    if (e.parameter && e.parameter.payload) {
+      data = JSON.parse(e.parameter.payload);
+    } else if (e.postData && e.postData.contents) {
+      const contentType = String(e.postData.type || '').toLowerCase();
+      if (contentType.indexOf('application/x-www-form-urlencoded') !== -1) {
+        const params = new URLSearchParams(e.postData.contents);
+        data = JSON.parse(params.get('payload') || '{}');
+      } else {
+        data = JSON.parse(e.postData.contents);
+      }
+    }
+    if (!data) throw new Error('No submission payload was received.');
+
+    const result = appendSubmission_(data);
+    return submissionPage_(result);
   } catch (err) {
-    return jsonOutput({
+    return submissionPage_({
       success: false,
       message: err && err.message ? err.message : 'Unable to save submission.'
     });
   }
+}
+
+/** Returns a small response page that notifies the GitHub page via postMessage. */
+function submissionPage_(result) {
+  const safeJson = JSON.stringify(result).replace(/</g, '\\u003c');
+  const html = '<!doctype html><html><head><meta charset="utf-8"></head><body>' +
+    '<script>window.parent.postMessage({type:"motion-sheet-result",result:' + safeJson + '},"*");</script>' +
+    '<p>Submission processed. You may close this frame.</p></body></html>';
+  return HtmlService.createHtmlOutput(html)
+    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
 
 function appendSubmission_(data) {
